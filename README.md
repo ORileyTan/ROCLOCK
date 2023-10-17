@@ -17,4 +17,10 @@ CREDITS TO screenswitch1!!!! Also adding a link to the original repo would be ni
 
 # How do I install this thing?
 
-Comming soon...
+Simple, drag and drop ROCLOCK.lua into AppData\Local\Roblox\Plugins
+
+and to enable speech drag and drop the ROCLOCK folder into the contents folder of the latest build of ROBLOX studio.
+
+# Why did you make this thing?
+
+No reason
