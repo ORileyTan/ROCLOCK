@@ -8,6 +8,10 @@ else
 	local inst = Instance.new("NumberValue")
 	inst.Name = "QTIME"
 	inst.Parent = insthold
+	local inst = Instance.new("StringValue")
+	inst.Name = "QYEAR"
+	inst.Parent = insthold
+	inst.Value = os.date("%y")
 end
 clockdata = game.CoreGui.ROCLOCKDATA
 
@@ -27,8 +31,8 @@ local widgetInfo = DockWidgetPluginGuiInfo.new(
 
 -- Create new widget GUI
 local window = plugin:CreateDockWidgetPluginGui("ROCLOCK", widgetInfo)
-window.Name = "ROCLOCK"
-window.Title = "RO-CLOCK 1.0.0"  -- Optional widget title
+window.Name = "ROCLOCK_101"
+window.Title = "RO-CLOCK 1.0.1"  -- Optional widget title
 
 local frame = Instance.new("Frame")
 frame.Transparency = 1
@@ -53,8 +57,39 @@ local voice = Instance.new("Sound")
 voice.Name = "VOICE"
 voice.Parent = frame
 voice.Volume = 3
+--Credit to screenswitch1
+local function Convert(Number)
+	return string.split(tostring(Number), ""), ","
+end
+
+
+function checknewyear()
+	if clockdata.QYEAR.Value < os.date("%y") then
+		clockdata.QYEAR.Value = os.date("%y")
+		local splitstring = Convert(os.date("%y"))
+		voice.SoundId = "rbxasset://ROCLOCK/NEWYEAR.WAV"
+		voice:Play()
+		wait(2.5)
+		if splitstring[1] == "2" then
+			voice.SoundId = "rbxasset://ROCLOCK/20.WAV"
+			voice:Play()
+			wait(0.5)
+			voice.SoundId = "rbxasset://ROCLOCK/" .. "0" .. splitstring[2] .. ".WAV"
+			voice:Play()
+		end
+		if splitstring[1] == "3" then
+			voice.SoundId = "rbxasset://ROCLOCK/30.WAV"
+			voice:Play()
+			wait(0.5)
+			voice.SoundId = "rbxasset://ROCLOCK/" .. "0" .. splitstring[2] .. ".WAV"
+			voice:Play()
+		end
+		wait(1)
+	end
+end
 
 function speech()
+	checknewyear()
 	--timeis
 	voice.SoundId = "rbxasset://ROCLOCK/TIME.WAV"
 	voice:Play()
@@ -67,10 +102,6 @@ function speech()
 		wait(1)
 	end
 
-	--Credit to screenswitch1
-	local function Convert(Number)
-		return string.split(tostring(Number), ""), ","
-	end
 
 	--minutes
 	if tonumber(os.date("%M")) < 20 then
@@ -79,7 +110,7 @@ function speech()
 	end
 	if tonumber(os.date("%M")) > 19 then
 		local splitstring = Convert(os.date("%M"))
-
+		
 		if splitstring[1] == "2" then
 			voice.SoundId = "rbxasset://ROCLOCK/20.WAV"
 			voice:Play()
@@ -90,8 +121,8 @@ function speech()
 		if splitstring[1] == "3" then
 			voice.SoundId = "rbxasset://ROCLOCK/30.WAV"
 			voice:Play()
-			wait(1)
-			voice.SoundId = "rbxasset://ROCLOCK/" .. splitstring[2] .. ".WAV"
+			wait(0.5)
+			voice.SoundId = "rbxasset://ROCLOCK/" .. "0" .. splitstring[2] .. ".WAV"
 			voice:Play()
 		end
 		if splitstring[1] == "4" then
@@ -154,7 +185,7 @@ function checkquarter()
 			clockdata.QTIME.Value = 30
 			voice.SoundId = "rbxasset://ROCLOCK/30CHIME.WAV"
 			voice:Play()
-			wait(4)
+			wait(6)
 			speech()
 		end
 	end
@@ -164,7 +195,7 @@ function checkquarter()
 			clockdata.QTIME.Value = 45
 			voice.SoundId = "rbxasset://ROCLOCK/45CHIME.WAV"
 			voice:Play()
-			wait(4)
+			wait(9)
 			speech()
 		end
 	end
@@ -174,7 +205,7 @@ function checkquarter()
 			clockdata.QTIME.Value = 0
 			voice.SoundId = "rbxasset://ROCLOCK/FULLHOURCHIME.WAV"
 			voice:Play()
-			wait(4)
+			wait(12)
 			speech()
 		end
 	end
